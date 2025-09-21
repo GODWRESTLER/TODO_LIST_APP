@@ -14,6 +14,7 @@ class TodoApp {
   initializeElements() {
     this.form = document.getElementById('todo-form');
     this.input = document.getElementById('task-input');
+    this.prioritySelect = document.getElementById('priority-select');
     this.tasksList = document.getElementById('tasks');
     this.emptyState = document.getElementById('empty-state');
     this.taskCount = document.getElementById('task-count');
@@ -77,7 +78,13 @@ class TodoApp {
   loadTasks() {
     try {
       const stored = localStorage.getItem('todo-tasks');
-      return stored ? JSON.parse(stored) : [];
+      const tasks = stored ? JSON.parse(stored) : [];
+      
+      // Ensure all tasks have a priority field for backward compatibility
+      return tasks.map(task => ({
+        ...task,
+        priority: task.priority || 'Medium'
+      }));
     } catch (error) {
       console.warn('Failed to load tasks from localStorage:', error);
       return [];
@@ -112,9 +119,11 @@ class TodoApp {
     if (!text) return;
 
     const sanitizedText = this.sanitizeInput(text);
+    const priority = this.prioritySelect.value;
     const newTask = {
       id: this.generateTaskId(),
       text: sanitizedText,
+      priority: priority,
       completed: false,
       createdAt: new Date().toISOString()
     };
@@ -171,6 +180,8 @@ class TodoApp {
       li.dataset.taskId = task.id;
       li.setAttribute('role', 'listitem');
 
+      const priority = task.priority || 'Medium';
+
       li.innerHTML = `
         <div class="checkbox" 
              role="checkbox" 
@@ -179,6 +190,7 @@ class TodoApp {
              aria-label="${task.completed ? 'Mark as incomplete' : 'Mark as complete'}: ${task.text}">
           ${task.completed ? '✓' : ''}
         </div>
+        <span class="priority-badge priority-${priority.toLowerCase()}">${priority}</span>
         <span class="task-text">${task.text}</span>
         <button class="delete-btn" 
                 aria-label="Delete task: ${task.text}"
