@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple To-Do List</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>To-Do List</h1>
+      <p class="subtitle">Simple task management</p>
+    </header>
+
+    <main>
+      <form id="todo-form" class="todo-form">
+        <div class="input-group">
+          <input 
+            id="task-input" 
+            type="text" 
+            placeholder="What needs to be done?"
+            aria-label="New task"
+            required
+            autocomplete="off"
+          >
+          <button type="submit" class="add-btn" aria-label="Add task">
+            <span>+</span>
+          </button>
+        </div>
+      </form>
+
+      <div class="tasks-container">
+        <ul id="tasks" class="tasks-list" role="list">
+          <!-- Tasks will be dynamically inserted here -->
+        </ul>
+        <div id="empty-state" class="empty-state">
+          <p>No tasks yet. Add one above to get started!</p>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="stats">
+        <span id="task-count">0 tasks</span>
+        <span id="completed-count">0 completed</span>
+      </div>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
