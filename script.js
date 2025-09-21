@@ -180,25 +180,7 @@ class TodoApp {
       li.dataset.taskId = task.id;
       li.setAttribute('role', 'listitem');
 
-      // Get priority and set inline styles
       const priority = task.priority || 'Medium';
-      let backgroundColor = '';
-      
-      switch (priority.toLowerCase()) {
-        case 'high':
-          backgroundColor = 'red';
-          break;
-        case 'medium':
-          backgroundColor = 'yellow';
-          break;
-        case 'low':
-          backgroundColor = 'green';
-          break;
-        default:
-          backgroundColor = 'yellow';
-      }
-      
-      li.style.backgroundColor = backgroundColor;
 
       li.innerHTML = `
         <div class="checkbox" 
@@ -208,7 +190,8 @@ class TodoApp {
              aria-label="${task.completed ? 'Mark as incomplete' : 'Mark as complete'}: ${task.text}">
           ${task.completed ? '✓' : ''}
         </div>
-        <span class="task-text">${task.text} - ${priority}</span>
+        <span class="priority-badge priority-${priority.toLowerCase()}">${priority}</span>
+        <span class="task-text">${task.text}</span>
         <button class="delete-btn" 
                 aria-label="Delete task: ${task.text}"
                 tabindex="0">
